@@ -2,74 +2,73 @@
 
 ## Overview
 
-For this assignment, I created a network-device example based on my background in communications. I used a parent class and a child class to demonstrate inheritance, class and instance namespaces, and shallow and deep copying.
+For this assignment, I created a network-device example based on my background in communications. I applied the parent class and child class to illustrate inheritance, class namespace, instance namespace, shallow copying and deep copying.
 
 ## Implementation Documentation
 
 ### Parent Class
 
-I created a parent class named `NetworkDevice` to represent basic network equipment. It included the class variable `category` and instance variables for the device's name, location, and configuration. The configuration contained a list of VLANs.
+I developed a super-class NetworkDevice to define basic network equipment. It contained the class variable ‘category' and instance variables for name, location and configuration of the device. A list of VLANs was included in the configuration.
 
-I used `__init__()` to set up each device and check that its name and location were not blank. The `describe()` method returned the device's information, and `__str__()` made that information readable when the object was printed.
+Each device was set up using `__init__()` and was tested to ensure that its name and location weren't empty. The method describe() retrieved the information of the device and the method __str__() returned the information into readable form when the device was printed.
 
-### Child Class and Inheritance
+Child class and inheritance is an article of faith.Child class and inheritance is a faith.
 
-I created `ManagedSwitch` as a child of `NetworkDevice`. It called `super().__init__()` to reuse the parent's setup and added a port count and management IP address. It also included its own class variable, `device_type`.
+ManagedSwitch is a child of NetworkDevice class. It invoked super().__init__() to inherit the parent's initialisation, and added a port count and management IP address. It was also accompanied by its own class variable called `device_type`.
 
-I overrode `describe()` to include the switch's additional information. The new `management_endpoint()` method returned a management URL using the switch's IP address.
+I overrode describe so that it will contain the extra info for the switch. A management URL was returned by the new `management_endpoint()` method, based on the switch's IP address.
 
 ### Class and Instance Namespaces
 
-I created two `ManagedSwitch` objects and accessed `device_type` through both the class and an object. I then added a `maintenance_due` attribute to only the first switch.
+I made two objects of the type `ManagedSwitch` and used both the class and an object to call the device_type. I've then added a `maintenance_due` attribute to the first switch only.
 
-I displayed the objects' `__dict__` values and the class namespace keys. The output showed that the added attribute belonged only to the first switch. I also checked that each newly created switch had its own configuration dictionary.
+Printed the attributes of the objects (their `__dict__`), and the keys of the class (their namespace). This led to the output indicating that the added attribute only applied to the first switch. I also verified that every switch created also included a configuration dictionary.
 
-### Shallow and Deep Copying
+Shallow Copying and Deep Copying.
 
-I created a switch with VLAN 10, then made a shallow copy with `copy()` and a deep copy with `deepcopy()`. After I added VLAN 20 to the original, the original and shallow copy both displayed `[10, 20]`. The deep copy still displayed `[10]`.
+I have made a switch with VLAN 10, then a shallow copy using the copy() function and a deep copy using deepcopy(). I added VLAN 20 to the original, and when it was displayed, both the original and the shallow copy showed `[10, 20]`. The deep copy still displayed `[10]`.
 
-I used `is` to check which objects shared data. The shallow copy shared the original's configuration dictionary, while the deep copy had a separate VLAN list.
+To see which objects had data in common, I used the test `is`. The shallow one shared the same configuration dictionary and the deep one had a list of VLANs.
 
 ### Testing
 
-I completed `main()` by creating objects from both classes and calling their methods. The switch used the inherited `add_vlan()` method and its own version of `describe()`. I also called the namespace and copying functions.
+Made objects of both classes and called their methods to complete `main()`. The switch used the inherited `add_vlan()` method and its own version of `describe()`. I also called the namespace and copying functions.
 
-The program ran successfully in Python 3. Assertions checked the expected results, and the output labeled each demonstration.
+The program was successfully run in Python 3. The expected results were checked by assertions and the output named the demonstrations.
 
 ### Student-Created Extension
 
-I added `add_vlan()` to let an existing device's configuration be updated. It accepted integer VLAN identifiers from 1 through 4094 and rejected duplicate entries. Since `ManagedSwitch` inherited this method, both classes could use the same validation.
+I added add_vlan() to allow for updating the configuration of an existing device. It could assign integer VLAN IDS from 1 through 4094 and it would not accept duplicates. This method was inherited from `ManagedSwitch`, thus allowing the same validation for both classes.
 
 ### Edge Case Testing
 
-I tested VLANs 1 and 4094, an empty starting list, duplicate entries, and invalid values such as 0, 4095, text, booleans, and missing values. I also tested blank names, missing locations, invalid port counts, and invalid IP addresses.
+I tried the following: VLANs 1 and 4094, a blank starting list, a duplicate list, invalid values (0, 4095, Text, Booleans, empty), etc. I also tried invalid port numbers, blank names, missing locations and invalid IP address.
 
-The program caught the expected errors, displayed a message, and continued running. I checked that rejected VLAN updates left the existing configuration unchanged.
+The program identified the expected errors and printed a message and then ran. I verified that the old configuration did not change when the update to the VLAN was rejected.
 
 ### Real-World Application
 
-This example could be expanded into a network inventory or configuration tool. Different device types could share basic information while keeping their own settings and methods. Keeping validation in one place could also make configuration changes easier to manage.
+This example could be extended to a network inventory or configuration tool. Different device types might have the same information but use a variety of methods and settings. Having validation centralized may facilitate configuration changes as well.
 
-Each device had its own configuration when first created. The VLAN list used more memory as entries were added, and checking for duplicates required searching the list. A set could improve membership checks if the program needed to handle more entries.
+The initial configuration for each device was different. As more VLANs were added, the VLAN list consumed more memory, and to check for a duplicate VLAN, the list had to be searched. In a scenario where there were more entries to process, a set could be used as an improvement to membership checks.
 
 ## Discussion Board Reflection
 
 ### 1. What concepts or skills did you learn while completing this assignment?
 
-I learned how a child class reused a parent's code while adding its own details. Using `__dict__` also helped me see the difference between shared class variables and attributes that belonged to one object.
+I was learning how to make a pie chart that shows the details of a child class using a parent class's code. Also, by using the `__dict__` property I was able to visually distinguish between shared class variables and variables that were attributes to a single object.
 
 ### 2. What challenges did you encounter, and how did you overcome them?
 
-The copying example needed the most attention. I checked the results after adding a VLAN to the original and used `is` to compare references. This showed why the shallow copy changed too, while the deep copy stayed independent.
+The copy example required the most work. After adding a VLAN to the original, I checked the results, and used is to compare references. This showed why the shallow copy changed too, while the deep copy stayed independent.
 
-### 3. Compare OOP to procedural programming.
+### 3. Compare OOP with procedural programming.
 
-With procedural programming, I would pass device information between functions. OOP kept that information with the methods that used it. This made the relationship between a device and its operations easier to follow.
+In procedural programming, I would send information about the device between functions. In an OOP, it was retained by the methods which used it. This facilitated the relationship of the device and its operation.
 
 ### 4. Discuss the benefits of maintainability and reusability, including overhead, practical application development, and future use.
 
-I could add another device type without rewriting the shared setup and VLAN checks. That would make maintenance easier as the program grew. Classes added some structure and memory overhead, so they might be unnecessary for a short script. For a larger network or cloud-management tool, I could reuse this approach to keep common behavior consistent.
-
+I can add another device type without having to rewrite shared setup & VLAN checks. That would make the maintenance effort easier as the program expands. Classes introduced some structure and memory overhead, which might not be necessary for a short script. If I was to have a larger network or cloud-management tool I could apply this again to maintain uniform behavior.
 ## How to Run
 
 From the `unit1_oop` folder, run:
