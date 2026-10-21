@@ -2,62 +2,36 @@
 
 ## Overview
 
-This assignment explores object-oriented programming (OOP) concepts in Python, including inheritance, namespaces, and object copying.
+This project demonstrated object-oriented programming in Python through a network-device simulation. A parent `NetworkDevice` class and a child `ManagedSwitch` class modeled inheritance and method overriding. Separate functions demonstrated class and instance namespaces and the differences between shallow and deep copying. The scenario connected to my communications background and interest in network and cloud automation.
 
-## Learning Objectives
+## Implementation Summary
 
-- Create parent and child classes
-- Use inheritance to extend functionality
-- Understand class and instance namespaces
-- Demonstrate shallow and deep copying
-- Apply object-oriented design principles
+- **NetworkDevice (parent class):** I implemented the class variable `category`, a constructor with the instance variables `name` and `location`, and a nested configuration dictionary containing a VLAN list. The constructor validated nonblank text. The `describe()` method returned device information, and `__str__()` made objects readable when printed.
+- **ManagedSwitch (child class):** I extended `NetworkDevice`, added the class variable `device_type`, and stored two additional instance variables: `port_count` and `management_ip`. The constructor checked the port count and IPv4 address, then called `super().__init__()`. I added `management_endpoint()` and overrode `describe()` to include switch details.
+- **Namespace demonstration:** I created two switches, accessed `device_type` through both the class and an object, and added `maintenance_due` to only one switch. I displayed both instance dictionaries and the class namespace keys. Assertions confirmed that the added attribute belonged only to the first object and that separately constructed switches had independent configurations.
+- **Copy demonstration:** I created an original switch with VLAN 10, made shallow and deep copies, and then added VLAN 20 to the original. The original and shallow copy showed `[10, 20]` because they shared the nested configuration. The deep copy remained `[10]`. Identity checks confirmed which objects shared data.
+- **Main function:** I created parent and child objects, called inherited and overridden methods, ran both demonstrations, and checked additional edge cases with labeled output.
 
-## Requirements
+## Student-Created Extension
 
-Complete all TODO sections in the source code:
+I added `add_vlan()` to validate configuration updates. It accepted integer VLAN identifiers from 1 through 4094 and rejected duplicates before changing the list. The method grouped the device's state and update rules together, although the configuration remained publicly accessible in this learning example.
 
-1. Create a parent class.
-2. Create a child class using inheritance.
-3. Demonstrate class and instance namespaces.
-4. Demonstrate shallow and deep copying.
-5. Create and test objects in `main()`.
-6. Add a student-created extension.
+I tested both valid boundaries, an empty initial list, duplicate VLANs, out-of-range numbers, strings, booleans, and missing values. Constructor tests also rejected blank names, missing locations, invalid port counts, and invalid IPv4 addresses. Expected exceptions were caught and printed, and assertions confirmed that rejected VLAN updates left the configuration unchanged. All checks passed and the program continued running.
 
-## Discussion Board Reflection
+## Reflection
 
-After completing the programming assignment, add this reflection to your initial discussion post in LEO.
+This assignment demonstrated how classes grouped data and behavior, how inheritance extended a parent class, and how Python resolved class and instance attributes. Using `__dict__` made the distinction visible: `maintenance_due` appeared only on one switch, while `device_type` was accessed through both the class and an instance. Special methods such as `__init__` and `__str__` controlled initialization and readable output.
 
-Your reflection should be approximately 150–200 words and address the following questions:
+Reference sharing during copying required particular attention. Adding a VLAN after creating both copies and checking object identities showed why the shallow copy changed with the original while the deep copy remained independent. Validation before mutation also kept rejected requests from changing device state.
 
-1. What concepts or skills did you learn while completing this assignment?
-2. What challenges did you encounter, and how did you overcome them?
-3. Compare OOP to procedural programming.
-4. Discuss the benefits of maintainability and reusability and apply this managing overhead, practical application development, and future use.
+Procedural programming organized operations into functions that received data. OOP kept device state and related operations together and allowed `ManagedSwitch` to reuse parent behavior. This reduced repetition and provided a foundation for additional device types. Classes added structure and some overhead, so a small script might not need them. For larger network or cloud tools, reusable classes could simplify maintenance. VLAN storage grew linearly, and duplicate checks scanned the list; a set could improve membership checks if the model needed to scale.
 
-## Implementation documentation
+## How to Run
 
-The implementation modeled network infrastructure with `NetworkDevice` and `ManagedSwitch`. The parent stored the shared `category`, each device's name and location, and a nested configuration dictionary. Its constructor validated nonblank text. Its `describe()` and `__str__()` methods supplied readable output. The child inherited the parent behavior through `super().__init__()`, added the class variable `device_type`, and stored a port count and management IPv4 address. It added `management_endpoint()` and overrode `describe()` to display switch-specific information.
+From the `unit1_oop` folder, run:
 
-The namespace demonstration created two switches, accessed `device_type` through both the class and an object, and displayed the instance dictionaries and class dictionary keys. It added `maintenance_due` only to the first switch. Assertions confirmed that the second switch did not acquire that attribute and that independently constructed switches did not share configuration dictionaries.
+```bash
+python unit1_discussion.py
+```
 
-The copying demonstration began with VLAN 10, created shallow and deep copies, and added VLAN 20 to the original. The original and shallow copy displayed `[10, 20]`, while the deep copy displayed `[10]`. Identity checks established that the shallow copy shared the configuration dictionary and that the deep copy held an independent VLAN list.
-
-The student-created extension, `add_vlan()`, validated VLAN identifiers and rejected duplicates before mutation. It demonstrated how encapsulation grouped a device's data and validation rules. The configuration remained publicly accessible in this learning example; callers could bypass validation by editing it directly, so the design did not claim strict privacy or production security.
-
-## Validation results
-
-The program ran successfully with Python 3 and its built-in assertions enabled. It accepted boundary VLAN values 1 and 4094; rejected 0, 4095, negative values, text, booleans, missing values, and a duplicate VLAN; and confirmed rejected updates left the configuration unchanged. Constructor checks rejected blank names, missing locations, invalid port counts, blank management addresses, and malformed IPv4 addresses. Empty VLAN lists were valid initial states. The output reported descriptive errors and execution continued after each expected failure. The namespace and copying assertions also passed.
-
-The command used was `python unit1_discussion.py` from this folder. No third-party packages were required. The displayed management endpoints used documentation-only IP addresses and did not initiate network connections.
-
-## Memory and performance
-
-Each independently constructed device received its own configuration dictionary and list. Class variables were resolved through class namespaces rather than duplicated in each instance dictionary. VLAN storage grew linearly with the number of stored identifiers. Duplicate detection scanned the list in O(n) time; appending took amortized O(1) time. A shallow copy duplicated the outer instance while sharing nested configuration, whereas a deep copy required time and memory proportional to the copied configuration. These estimates treated fixed device metadata as constant size. For a larger inventory, a set could improve membership checks, with a separate ordering strategy if stable display order remained necessary.
-
-## Practical application
-
-This model connected to communications equipment maintenance and future network or cloud automation. Shared device behavior could remain in the parent while additional subclasses represented routers or firewalls. Validation could keep an invalid VLAN request from changing the modeled configuration. The program simulated configuration management; it did not configure real equipment.
-
-## Submission status
-
-Code and documentation were completed and tested locally. The repository was created at https://github.com/sandgongy/cmsc315-discussions. Discussion submission status was tracked separately.
+The program used Python 3 and the standard library. It printed the demonstrations and test results without connecting to or configuring real network equipment.
