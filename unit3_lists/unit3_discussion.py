@@ -81,7 +81,15 @@ def main():
     # 5. Use comments to explain each step in the implementation.
 
     print("\n=== INSERTION TESTS ===")
-    print("TODO: Create a list and demonstrate insertions.")
+    # Keep the original TODO prompt above; demonstrate each insertion below.
+    tickets = ["Printer", "VPN", "Email"]
+    print("Original tickets:", tickets)
+    insert_at(tickets, 0, "Network outage")
+    print("Beginning:", tickets)
+    insert_at(tickets, len(tickets) // 2, "Account locked")
+    print("Middle:", tickets)
+    insert_at(tickets, len(tickets), "Software install")
+    print("End:", tickets)
 
     # ===============================
     # TODO (Student): DELETION TESTS
@@ -97,7 +105,12 @@ def main():
     # 4. Use comments to clearly explain what is happening in the output.
 
     print("\n=== DELETION TESTS ===")
-    print("TODO: Demonstrate deletions from multiple positions.")
+    # Display both the removed ticket and the remaining work.
+    for label, index in [("Beginning", 0), ("Middle", len(tickets) // 2)]:
+        removed = delete_at(tickets, index)
+        print(f"{label}: removed {removed}; remaining: {tickets}")
+    removed = delete_at(tickets, len(tickets) - 1)
+    print(f"End: removed {removed}; remaining: {tickets}")
 
     # ===============================
     # TODO (Student): SEARCH TESTS
@@ -110,7 +123,10 @@ def main():
     # 4. Use comments to explain each step.
 
     print("\n=== SEARCH TESTS ===")
-    print("TODO: Demonstrate searching for values.")
+    # Use fresh data so earlier deletions cannot change the search setup.
+    search_tickets = ["Printer", "VPN", "Email"]
+    for value in ["VPN", "Missing ticket"]:
+        print(f"Search {value!r}: index {search_value(search_tickets, value)}")
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -126,7 +142,27 @@ def main():
     # - Use comments to explain each edge case.
 
     print("\n=== EDGE CASES ===")
-    print("TODO: Demonstrate at least two edge cases.")
+    # Empty input, invalid indexes, duplicates, and one-item boundaries.
+    empty = []
+    print("Delete from empty:", delete_at(empty, 0))
+    print("Search empty:", search_value(empty, "VPN"))
+    insert_at(empty, 0, "VPN")
+    print("Insert into empty:", empty)
+    print("Negative index rejected:", delete_at(empty, -1), empty)
+    print("Index equal to length rejected:", delete_at(empty, len(empty)), empty)
+    print("Noninteger index rejected:", delete_at(empty, "0"), empty)
+    print("Delete only item:", delete_at(empty, 0), empty)
+    print("Duplicate search returns first match:", search_value(["VPN", "VPN"], "VPN"))
+
+    # A service-desk list keeps pending tickets in their planned order.
+    print("\n=== SERVICE DESK SCENARIO ===")
+    pending = ["Printer", "VPN", "Email"]
+    insert_at(pending, 0, "Network outage")
+    print("Urgent ticket added:", pending)
+    index = search_value(pending, "VPN")
+    if index != -1:
+        print("Resolved ticket:", delete_at(pending, index))
+    print("Remaining tickets:", pending)
 
 
 
