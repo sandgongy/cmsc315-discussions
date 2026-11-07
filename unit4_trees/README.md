@@ -1,12 +1,12 @@
 # Unit 4: Binary Search Trees
 
-I used employee ID numbers to show how a BST organized values and narrowed down searches. I completed the starter's recursive insertion, search, and in-order traversal methods and kept the original TODO prompts and comments.
+I decided to use employee ID numbers for a demonstration of how a BST works and can be used to search for values. I completed the starter code for recursive insertion, search and in-order traversal, leaving the original TODO comments and instructions as they were.
 
 ## What I changed
 
-Each node stored an ID and references to its left and right children. Insertion placed smaller IDs on the left and larger IDs on the right. Each recursive call returned its node so the parent kept the connection to its child. I ignored duplicates because the example treated employee IDs as unique.
+The node stores the ID of the employee and references to the left and right children. The IDs of the left children are smaller than the ID of the parent, and the IDs of the right children are larger than the ID of the parent. The recursive call returns the child that was just inserted, so the parent can keep a reference to its child. I ignored duplicates in this example because the IDs are treated as unique for the employees.
 
-Search followed the same comparisons and returned False when it reached an empty position. In-order traversal visited the left subtree, the current ID, and the right subtree, which produced ascending output.
+Search is similar to the insertion code, except that when a node with a NULL left or right child is reached, False is returned. In-order traversal visits the left subtree first, then the current node, then the right subtree. This produces a list of the IDs in ascending order.
 
 ## Running the program
 
@@ -16,11 +16,11 @@ From this folder, I ran:
 python3 unit4_discussion.py
 ```
 
-The program used Python 3 and no extra packages. I checked the results with assertions as well as printed output.
+I used Python 3 and no extra packages for the exercise. The code is tested with assertions as well as printed output.
 
 ## Results
 
-I expanded the demonstration beyond the seven-value minimum to fifteen employee IDs across four levels.
+I have expanded the minimum requirement of seven employee IDs to fifteen employee IDs across four levels.
 
 | Check | Result |
 | --- | --- |
@@ -38,12 +38,12 @@ All assertions passed. The two insertion orders produced identical sorted output
 
 ## Performance and limits
 
-The original order produced a balanced tree for these fifteen IDs. A balanced BST supported search and insertion in O(log n) time; a skewed tree required O(n) in the worst case. Traversal visited every node and took O(n) either way. An unsorted list could require a linear search, while a sorted array could also support O(log n) binary search. The BST's ordering helped it skip an entire subtree at each comparison, although it did not always skip half the values.
+The tree created with the original insertion order is a balanced tree for the fifteen IDs used in the demonstration. A balanced BST can be searched and inserted in O(log n) time. A skewed tree would take O(n) in the worst case for both operations. Traversal would still take O(n) in either case. For an unsorted list of items, the search would take O(n) in the worst case, but a sorted array of the same items could be searched in O(log n) time using binary search. The BST can skip over an entire subtree at each step in the search, but it does not necessarily have to skip over half of the items.
 
-I used fixed integer IDs for this demonstration. I did not add interactive input or validation for mixed types. The tree did not rebalance itself, and a very long chain could exceed Python's recursion limit. A self-balancing tree would address the height problem for a larger application. The example stored IDs only; a full employee directory would also need employee details associated with each ID.
+The example uses fixed integer IDs for employees. I did not add interactive input or any kind of validation for mixed types. The tree does not automatically rebalance itself. A very long chain of nodes could even exceed the maximum recursion depth allowed by Python. A self-balancing tree would be a better choice for a larger application. The example stores only the IDs for employees. A full employee directory would also store more information about each employee such as name, email, department, etc.
 
 ## Reflection
 
-This assignment showed me how recursion connected the smaller parts of a tree. Insertion and search followed the same comparison rule, while traversal visited both sides to collect every value. Returning the updated node reference was the part that needed the most attention because the parent still needed a connection to the new child. The employee ID example made that relationship easier to follow.
+This assignment showed me how to use recursion to go through the smaller parts of a tree. The insertion and search methods used the same comparison as the in-order traversal to visit the left and right subtrees. The only change was to return the updated node reference in the insertion and search methods, instead of printing out the values as in the in-order traversal. The employee ID example made it easy to see how the parent-child relationship was being maintained.
 
-The comparison test also showed why using a BST did not automatically make searching fast. Both trees contained the same IDs and printed the same sorted list, but finding 1095 took four comparisons in the first tree and fifteen after sorted insertion. A balanced tree could keep searches near O(log n), while a chain could behave like a linked list and require O(n). An unsorted list also required up to O(n) for a search, although a sorted array could use binary search. The main lesson was that insertion order affected the tree's shape, and that shape affected how much work each search needed.
+This example also demonstrated that while a BST can make search fast, it does not automatically do so. Both trees above contained the same IDs and when printed in sorted order they were identical. However, in the first tree above, finding 1095 took four comparisons while in the second tree, finding 1095 took fifteen comparisons. The balanced tree above kept searches near O(log n) while the chain above was like a linked list and took O(n) to find 1095. An unsorted list of items would take up to O(n) to find an item but a sorted array could take O(log n) time to find an item using binary search. It is the shape of the tree that is determined by the order in which items are inserted that determines the number of comparisons that are required to find an item.
